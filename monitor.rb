@@ -1,5 +1,4 @@
 require 'json'
-require 'mail'
 require 'byebug'
 require 'active_support/time'
 
@@ -19,14 +18,14 @@ def check
   end
 end
 
-def send_mail(body)
-  puts body
-  Mail.deliver do
-    from     'info@dan@coav.ru'
-    to       'dan@coav.ru'
-    subject  'TommyGun has!'
-    body     body
-  end
+def send_mail(message)
+body = <<-TEXT
+Subject: TommyGun has!
+
+Message: ${message}
+TEXT
+
+  puts `echo "#{body}" | ssmtp dan@coav.ru`
 end
 
 while true
